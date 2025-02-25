@@ -135,3 +135,290 @@ If we pull multiple Docker Images, multiple Virtual Machines will get created.
 Containers are created based on virtualization.  
 So, we don’t need to install any software on the host machine because Docker will take care of that in the Virtual Machine.
 
+---
+
+# Install Docker Desktop
+
+Go to the official website of Docker and install the suitable version of Docker Desktop on your system.  
+Also, install WSL using the command prompt.  
+To install WSL, simply execute the below command:
+
+```bash
+wsl --install
+```
+
+Basically, it will create a Linux machine on your system.  
+Once everything is done, restart your system.
+
+---
+
+# Commands for Docker
+
+To check if Docker is installed on your system or not, execute the below command:
+
+```bash
+docker --version
+```
+
+You will see the below result, which means that Docker is installed and working on your system:
+
+```bash
+Docker version 27.4.0, build bde2b89
+```
+
+---
+
+# Pull an Image from Docker Hub
+
+To pull an image from Docker Hub, execute the following command:
+
+```bash
+docker pull <image-id / image-name>
+```
+
+### Examples:
+
+```bash
+docker pull hello-world
+docker pull openjdk
+```
+
+---
+# Check Docker Images in the System
+
+To check the total images in your system, execute the following command:
+
+```bash
+docker images
+```
+
+You will get output similar to the following:
+
+```plaintext
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+hello-world   latest    d715f14f9eca   3 weeks ago   20.4kB
+openjdk       latest    9b448de897d2   2 years ago   727MB
+```
+
+# Pull a Specific Version of an Image
+
+If the user wants to pull a specific version of an image (e.g., Java), execute the following command:
+
+```bash
+docker pull openjdk:18
+```
+
+This will download the `18` version of the `openjdk` image.
+
+You will get output similar to the following:
+
+```plaintext
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+hello-world   latest    d715f14f9eca   3 weeks ago   20.4kB
+openjdk       18        9b448de897d2   2 years ago   727MB
+openjdk       latest    9b448de897d2   2 years ago   727MB
+```
+
+---
+# Check Running Containers
+
+To check if any container is running in your system, execute the following command:
+
+```bash
+docker ps
+```
+
+### Example:
+
+```bash
+docker ps
+```
+
+Output:
+
+```plaintext
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+If you execute only `docker ps`, it will show the containers that are currently running.
+
+---
+# Check All Containers (Running and Stopped)
+
+To check if any container is running or stopped in your system, execute the following command:
+
+```bash
+docker ps -a
+```
+
+### Example:
+
+```bash
+docker ps -a
+```
+
+Output:
+
+```plaintext
+CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                     PORTS     NAMES
+87113732a3b3   hello-world   "/hello"   6 minutes ago   Exited (0) 5 minutes ago             busy_lamarr
+```
+
+If you execute `docker ps -a`, it will show both running and stopped containers.
+
+---
+
+### To run the docker image, execute the command below:
+
+```bash
+docker run <image-id / image-name>
+```
+After we run the command `docker run <image-name>`, a container gets created.
+
+#### Example:
+
+```bash
+docker run hello-world
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+NOTE: Here this is simple hello-world image so it got execute and exited automatically.
+But if we pull image of web-app then it will not get exit automatically.
+
+
+If we dont have docker image avaliable in our local system and even if we execute 
+	docker run hello-world
+Then in that case docker will check if there is any hello-world image is present in local
+if hello-world image is not present in local then it will download that image  and run that image.
+
+```
+
+---
+
+# Remove/Delete Docker Image
+
+To remove/delete a Docker image, execute the following command:
+
+```bash
+docker rmi <image-id / image-name>
+```
+
+### Example:
+
+1. **Check available Docker images:**
+
+```bash
+docker images
+```
+
+Output:
+
+```plaintext
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+hello-world   latest    d715f14f9eca   3 weeks ago   20.4kB
+openjdk       latest    9b448de897d2   2 years ago   727MB
+```
+
+2. **Delete Docker image by image name:**
+
+```bash
+docker rmi hello-world
+```
+
+Output:
+
+```plaintext
+Untagged: hello-world:latest
+Deleted: sha256:d715f14f9eca81473d9112df50457893aa4d099adeb4729f679006bf5ea12407
+```
+
+3. **Verify deletion:**
+
+```bash
+docker images
+```
+
+Output:
+
+```plaintext
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+openjdk      latest    9b448de897d2   2 years ago   727MB
+```
+
+4. **Delete Docker image by image ID:**
+
+```bash
+docker rmi 9b448de897d2
+```
+
+Output:
+
+```plaintext
+Untagged: openjdk:latest
+Deleted: sha256:9b448de897d211c9e0ec635a485650aed6e28d4eca1efbc34940560a480b3f1f
+```
+
+5. **Verify all Docker images are deleted:**
+
+```bash
+docker images
+```
+
+Output:
+
+```plaintext
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+```
+
+---
+
+## To remove/delete docker container execute below command
+
+```bash
+	docker rm	<container-id>
+```
+
+When you execute docker ps -a you will get the id of the container id
+
+### Eg:	
+
+## Checking if container is avaliable
+```bash
+ docker ps -a
+```
+Output:
+
+```plaintext
+CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                     PORTS     NAMES
+87113732a3b3   hello-world   "/hello"   6 minutes ago   Exited (0) 5 minutes ago             busy_lamarr
+```
+
+## Deleted the container
+```bash
+docker rm 87113732a3b3
+```
+Output:
+
+```plaintext
+87113732a3b3
+```
+
+## Container got deleted
+```bash
+docker ps -a
+```
+
+Output:
+
+```plaintext
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+---
+
+## To delete stoped container and unused images execute below command
+```bash
+docker system prune -a
+```
+
+---
